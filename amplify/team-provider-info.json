@@ -1,0 +1,20 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-blogkurs-dev-142235-authRole",
+      "UnauthRoleArn": "arn:aws:iam::513946756882:role/amplify-blogkurs-dev-142235-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::513946756882:role/amplify-blogkurs-dev-142235-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-blogkurs-dev-142235-deployment",
+      "UnauthRoleName": "amplify-blogkurs-dev-142235-unauthRole",
+      "StackName": "amplify-blogkurs-dev-142235",
+      "StackId": "arn:aws:cloudformation:us-east-1:513946756882:stack/amplify-blogkurs-dev-142235/12e40680-5daa-11ec-a817-0a75edf12ebd",
+      "AmplifyAppId": "d1jznp5xn9ftwp"
+    },
+    "categories": {
+      "auth": {
+        "blogkurs812c0bd3": {}
+      }
+    }
+  }
+}

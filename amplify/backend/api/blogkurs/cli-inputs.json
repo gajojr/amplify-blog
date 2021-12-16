@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "serviceConfiguration": {
+    "apiName": "blogkurs",
+    "serviceName": "AppSync",
+    "gqlSchemaPath": "C:\\Users\\PC5\\Desktop\\WebVezbanje\\blog-kurs\\amplify\\backend\\api\\blogkurs\\schema.graphql",
+    "defaultAuthType": {
+      "mode": "API_KEY",
+      "expirationTime": 7
+    }
+  }
+}
