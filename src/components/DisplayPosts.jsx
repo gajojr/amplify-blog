@@ -14,21 +14,18 @@ const DisplayPosts = () => {
 	}, []);
 
 	useEffect(() => {
-		let createPostListener = () => {
-			API.graphql(graphqlOperation(onCreatePost)).subscribe({
-				next: postData => {
-					const newPost = postData.value.data.onCreatePost;
-					const previousPosts = posts.filter(post => post.id !== newPost.id);
+		const subscription = API.graphql(graphqlOperation(onCreatePost)).subscribe({
+			next: postData => {
+				const newPost = postData.value.data.onCreatePost;
+				const previousPosts = posts.filter(post => post.id !== newPost.id);
 
-					const updatedPosts = [newPost, ...previousPosts];
-					setPosts(updatedPosts);
-				}
-			});
-		}
-		createPostListener();
+				const updatedPosts = [newPost, ...previousPosts];
+				setPosts(updatedPosts);
+			}
+		});
 
 		return () => {
-			createPostListener = null;
+			subscription.unsubscribe();
 		}
 	}, [posts]);
 

@@ -39,7 +39,11 @@ const CreatePost = () => {
 		console.log(input);
 
 		await API.graphql(graphqlOperation(createPost, { input }));
-		setPost({ postTitle: '', postBody: '' });
+		setPost(prevState => ({
+			...prevState,
+			postTitle: '',
+			postBody: ''
+		}));
 	}
 
 	return (
