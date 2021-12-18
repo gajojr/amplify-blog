@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { listPosts } from '../graphql/queries';
 import { API, graphqlOperation } from 'aws-amplify';
-import { onCreatePost, onDeletePost, onUpdatePost } from '../graphql/subscriptions';
+import { onCreateComment, onCreatePost, onDeletePost, onUpdatePost } from '../graphql/subscriptions';
 
 import DeletePost from './DeletePost';
 import EditPost from './EditPost';
+import CreateCommentPost from './CreateCommentPost';
+import CommentPost from './CommentPost';
 
 const DisplayPosts = () => {
 	const [posts, setPosts] = useState([]);
@@ -46,10 +48,26 @@ const DisplayPosts = () => {
 			}
 		});
 
+		const createPostCommentListener = API.graphql(graphqlOperation(onCreateComment)).subscribe({
+			next: commentData => {
+				const createdComment = commentData.value.data.onCreateComment;
+				const modifiedPosts = [...posts];
+
+				for (const post of modifiedPosts) {
+					if (createdComment.post.id === post.id) {
+						post.comments.items.push(createdComment);
+					}
+				}
+
+				setPosts(modifiedPosts);
+			}
+		})
+
 		return () => {
 			createPostListener.unsubscribe();
 			deletePostListener.unsubscribe();
 			updatePostListener.unsubscribe();
+			createPostCommentListener.unsubscribe();
 		}
 	}, [posts]);
 
@@ -61,7 +79,7 @@ const DisplayPosts = () => {
 
 	return (
 		<div>
-			{posts.length && posts.map(post => {
+			{posts.length > 0 && posts.map(post => {
 				return (
 					<div key={post.id} className='posts' style={rowStyle}>
 						<h1>{post.postTitle}</h1>
@@ -73,6 +91,18 @@ const DisplayPosts = () => {
 						<span>
 							<DeletePost post={post} />
 							<EditPost data={post} />
+						</span>
+						<span>
+							<CreateCommentPost postId={post.id} />
+							{post.comments?.items?.length > 0 &&
+								<span style={{ fontSize: '19px', color: 'gray' }}>
+									Comments:
+									{
+										post.comments.items.map((comment, index) => {
+											return <CommentPost key={index} commentData={comment} />
+										})
+									}
+								</span>}
 						</span>
 					</div>
 				)
